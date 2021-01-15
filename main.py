@@ -8,7 +8,7 @@ import sys
 import os
 import time
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 def read_key_file(filename):
     """function that reads the public/private key file and returns the keysize, modulus and key
@@ -134,7 +134,7 @@ def main():
         startime = time.time()
         encrypt_to_file(text_file, cipher_file, publickey_file, blocksize=None)
         print("The plain-text has been encrypted to <%s>"%(cipher_file))
-        print("Time taken to encrypt the file : %s seconds"%(round(startime-time.time()), 4))
+        print("Time taken to encrypt the file : %s seconds"%(round(time.time()-startime, 4))
     else:
         print("Input the path/number of the cipher file ...")
         cipher_file = input(">>> ")
@@ -151,7 +151,8 @@ def main():
         startime = time.time()
         decrypt_to_file(cipher_file, text_file, privatekey_file)
         print("The cipher-text has been decrypted to <%s>"%(text_file))
-        print("Time taken to encrypt the file : %s seconds"%(round(startime-time.time(), 4)))
+        print("Time taken to encrypt the file : %s seconds"%(round(time.time()-startime, 4)))
         
 if __name__ == "__main__":
     main()
+    input("Press any key to continue ...")
