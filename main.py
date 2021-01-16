@@ -8,7 +8,7 @@ import sys
 import os
 import time
 
-__version__ = "1.0.1"
+__version__ = "1.1.1"
 
 def read_key_file(filename):
     """function that reads the public/private key file and returns the keysize, modulus and key"""
@@ -73,8 +73,8 @@ def decrypt_to_file(cipher_file, text_file, key_file):
 def main():
     # description
     print("RSA ENCRYPTION ALGORITHM [Version %s]"%(__version__))
-    print("source code -> https://github.com/GuptaAyush19/RSA-Cipher \n")
-    print("Copyright (c) 2021 Ayush Gupta")
+    print("source code -> https://github.com/GuptaAyush19/RSA-Cipher")
+    print("Copyright (c) 2021 Ayush Gupta\n")
     print("Encrypt/Decrypt files using the corresponding public/private key.")
     print("NOTE: public key is used for encryption and private key for decryption.")
     # check whether the user wants to generate a key pair
@@ -132,7 +132,7 @@ def main():
         startime = time.time()
         encrypt_to_file(text_file, cipher_file, publickey_file, blocksize=None)
         print("The plain-text has been encrypted to <%s>"%(cipher_file))
-        print("Time taken to encrypt the file : %s seconds"%(round(time.time()-startime, 4))
+        print("Time taken to encrypt the file : %s seconds"%(round(time.time()-startime, 4)))
     else:
         print("Input the path/number of the cipher file ...")
         cipher_file = input(">>> ")
