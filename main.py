@@ -73,8 +73,8 @@ def decrypt_to_file(cipher_file, text_file, key_file):
 def main():
     # description
     print("RSA ENCRYPTION ALGORITHM [Version %s]"%(__version__))
-    print("Copyright (c) 2021 Ayush Gupta")
     print("source code -> https://github.com/GuptaAyush19/RSA-Cipher \n")
+    print("Copyright (c) 2021 Ayush Gupta")
     print("Encrypt/Decrypt files using the corresponding public/private key.")
     print("NOTE: public key is used for encryption and private key for decryption.")
     # check whether the user wants to generate a key pair
