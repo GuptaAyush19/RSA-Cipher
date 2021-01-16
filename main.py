@@ -11,8 +11,7 @@ import time
 __version__ = "1.0.1"
 
 def read_key_file(filename):
-    """function that reads the public/private key file and returns the keysize, modulus and key
-    """
+    """function that reads the public/private key file and returns the keysize, modulus and key"""
     fo = open(filename, "r")
     content = fo.read()
     fo.close()
@@ -20,8 +19,7 @@ def read_key_file(filename):
     return (int(keysize), int(n), int(EorD))
 
 def encrypt_to_file(text_file, cipher_file, key_file, blocksize=None):
-    """functions that encrypts text-file to cipher-file
-    """
+    """functions that encrypts text-file to cipher-file"""
     keysize, n, e = read_key_file(key_file)
     if blocksize==None:
         blocksize = math.floor(math.log(2**keysize, len(rsa.SYMBOLS)))
@@ -46,8 +44,7 @@ def encrypt_to_file(text_file, cipher_file, key_file, blocksize=None):
     return cipher
 
 def decrypt_to_file(cipher_file, text_file, key_file):
-    """functions that decrypts cipher-file to text-file
-    """
+    """functions that decrypts cipher-file to text-file"""
     keysize, n, d = read_key_file(key_file)
     
     fo = open(cipher_file, "r")
@@ -76,7 +73,8 @@ def decrypt_to_file(cipher_file, text_file, key_file):
 def main():
     # description
     print("RSA ENCRYPTION ALGORITHM [Version %s]"%(__version__))
-    print("source code -> github.com/GuptaAyush19/ \n")
+    print("Copyright (c) 2021 Ayush Gupta")
+    print("source code -> https://github.com/GuptaAyush19/RSA-Cipher \n")
     print("Encrypt/Decrypt files using the corresponding public/private key.")
     print("NOTE: public key is used for encryption and private key for decryption.")
     # check whether the user wants to generate a key pair
