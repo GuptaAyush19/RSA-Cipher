@@ -95,4 +95,5 @@ def generate_prime(keysize=1024):
 
     
 if __name__ == "__main__":
-    print(generate_prime())         
+    prime = generate_prime()
+    print(prime, is_prime(prime), sep="\n")         

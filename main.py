@@ -2,13 +2,15 @@
 # Author : Ayush Gupta
 # Date created : 15-01-2021
 
-import rsa
-import math
-import sys
-import os
-import time
+from math import floor, log
+from os import path, listdir
+from sys import exit
+from textwrap import dedent
+from time import time
 
-__version__ = "1.1.3"
+import rsa
+
+__version__ = "1.2.0"
 
 def read_key_file(filename):
     """function that reads the public/private key file and returns the keysize, modulus and key"""
@@ -19,12 +21,12 @@ def read_key_file(filename):
     return (int(keysize), int(n), int(EorD))
 
 def encrypt_to_file(text_file, cipher_file, key_file, blocksize=None):
-    """functions that encrypts text-file to cipher-file"""
+    """function that encrypts text-file to cipher-file"""
     keysize, n, e = read_key_file(key_file)
     if blocksize==None:
-        blocksize = math.floor(math.log(2**keysize, len(rsa.SYMBOLS)))
-    if not math.floor(math.log(2**keysize, len(rsa.SYMBOLS))) >= blocksize:
-        sys.exit("ERROR: input the correct the key file for the specified block size") 
+        blocksize = floor(log(2**keysize, len(rsa.SYMBOLS)))
+    if not floor(log(2**keysize, len(rsa.SYMBOLS))) >= blocksize:
+        exit("ERROR: input the correct the key file for the specified block size") 
         
     fo = open(text_file, "r")
     text = fo.read()
@@ -44,7 +46,7 @@ def encrypt_to_file(text_file, cipher_file, key_file, blocksize=None):
     return cipher
 
 def decrypt_to_file(cipher_file, text_file, key_file):
-    """functions that decrypts cipher-file to text-file"""
+    """function that decrypts cipher-file to text-file"""
     keysize, n, d = read_key_file(key_file)
     
     fo = open(cipher_file, "r")
@@ -55,8 +57,8 @@ def decrypt_to_file(cipher_file, text_file, key_file):
     text_len = int(text_len)
     blocksize = int(blocksize)
     
-    if not math.floor(math.log(2**keysize, len(rsa.SYMBOLS))) >= blocksize:
-        sys.exit("ERROR: input the correct the key file for the specified block size")
+    if not floor(log(2**keysize, len(rsa.SYMBOLS))) >= blocksize:
+        exit("ERROR: input the correct the key file for the specified block size")
         
     cipher_blocks =[]
     for block in cipher.split(","):
@@ -70,87 +72,92 @@ def decrypt_to_file(cipher_file, text_file, key_file):
     
     return text
 
+onlyfiles = [f for f in listdir() if path.isfile(path.join(f))]
+
+def check_file_exists(filename):
+    """function that checks whether the file exists or in the table. If the condition is true, it returns
+    the corresponding file."""
+    if not path.exists(filename):
+        if filename.isdigit():
+            return onlyfiles[int(filename)]
+        else:
+            exit("ERROR: File does not exist.")
+    return filename
+
 def main():
-    # description
-    print("RSA ENCRYPTION ALGORITHM [Version %s]"%(__version__))
-    print("source code -> https://github.com/GuptaAyush19/RSA-Cipher")
-    print("Copyright (c) 2021 Ayush Gupta\n")
-    print("Encrypt/Decrypt files using the corresponding public/private key.")
-    print("NOTE: public key is used for encryption and private key for decryption.")
+    
+    description = """
+    RSA ENCRYPTION ALGORITHM [Version %s]
+    source code -> https://github.com/GuptaAyush19/RSA-Cipher
+    Copyright (c) 2021 Ayush Gupta\n
+    Encrypt/Decrypt files using the corresponding public/private key.
+    NOTE: public key is used for encryption and private key for decryption.
+    """%(__version__)
+    
+    print(dedent(description))
+    
     # check whether the user wants to generate a key pair
     print("Generate a key pair by entering 'True'. If key exists then enter 'False' ...")
     keypair_bool = input(">>> ").lower()
     if keypair_bool.startswith("t"):
         rsa.generate_key.main()
         input("Now as the keys are generated, rerun the program to encrypt/decrypt.")
-        sys.exit()
+        exit()
+    elif keypair_bool.startswith("f"):
+        pass
+    else:
+        exit("ERROR: Not a valid input.")
         
     # create table for files in current directory
     print("\nFiles in current directory for reference ->\n")
-    onlyfiles = [f for f in os.listdir() if os.path.isfile(os.path.join(f))]
     for i in range(len(onlyfiles)):
         print("\t%s : %s"%(i, onlyfiles[i]))
     print("\nCorresponding numbers can be used to refer to the existing file.\n")
         
-    # input the mode either encrypt or decrypt
     mode = input("Do you want to (e)ncrypt or (d)ecrypt?> ").lower()
+    # public key and private key input
     if mode.startswith("e"): # encrypt
         mode="encrypt"
         print("Mode selected: ENCRYPT")
         print("Input the path/number of the public key ...")
         publickey_file=input(">>> ")
-        if not os.path.exists(publickey_file):
-            if publickey_file.isalnum():
-                publickey_file = onlyfiles[int(publickey_file)]
-            else:
-                sys.exit("ERROR: File does not exists.")
+        publickey_file = check_file_exists(publickey_file)
     elif mode.startswith("d"): # decrypt
         mode="decrypt"
         print("Mode selected: DECRYPT")
         print("Input the path/number to the private key ...")
         privatekey_file=input(">>> ")
-        if not os.path.exists(privatekey_file):
-            if privatekey_file.isalnum():
-                privatekey_file = onlyfiles[int(privatekey_file)]
-            else:
-                sys.exit("ERROR: File does not exists.")
+        privatekey_file = check_file_exists(privatekey_file)
     else:
-        sys.exit("ERROR: Not a valid input.")
+        exit("ERROR: Not a valid input.")
         
+    # encrypt or decrypt text file
     if mode=="encrypt":
         print("Input the path/number of the plain-text file ...")
         text_file = input(">>> ")
-        if not os.path.exists(text_file):
-            if text_file.isalnum():
-                text_file = onlyfiles[int(text_file)]
-            else:
-                sys.exit("ERROR: File does not exists.")
+        text_file = check_file_exists(text_file)
         print("Input the desired path of the cipher file ...")
         cipher_file = input(">>> ")
-        if os.path.exists(cipher_file):
-            sys.exit("WARNING: The cipher-file already exists.")
+        if path.exists(cipher_file):
+            exit("WARNING: The cipher-file already exist.")
         print("\nEncrypting the file (generating a default blocksize)....")
-        startime = time.time()
+        startime = time()
         encrypt_to_file(text_file, cipher_file, publickey_file, blocksize=None)
         print("The plain-text has been encrypted to <%s>"%(cipher_file))
-        print("Time taken to encrypt the file : %s seconds"%(round(time.time()-startime, 4)))
+        print("Time taken to encrypt the file : %s seconds"%(round(time()-startime, 4)))
     else:
         print("Input the path/number of the cipher file ...")
         cipher_file = input(">>> ")
-        if not os.path.exists(cipher_file):
-            if cipher_file.isalnum():
-                cipher_file = onlyfiles[int(cipher_file)]
-            else:
-                sys.exit("ERROR: File does not exists.")
+        cipher_file = check_file_exists(cipher_file)
         print("Input the desired path for the plain-text file ...")
         text_file = input(">>> ")
-        if os.path.exists(text_file):
-            sys.exit("WARNING: The text-file already exists.")
+        if path.exists(text_file):
+            exit("WARNING: The text-file already exists.")
         print("\nDecrypting the file ...")
-        startime = time.time()
+        startime = time()
         decrypt_to_file(cipher_file, text_file, privatekey_file)
         print("The cipher-text has been decrypted to <%s>"%(text_file))
-        print("Time taken to encrypt the file : %s seconds"%(round(time.time()-startime, 4)))
+        print("Time taken to encrypt the file : %s seconds"%(round(time()-startime, 4)))
         
 if __name__ == "__main__":
     main()

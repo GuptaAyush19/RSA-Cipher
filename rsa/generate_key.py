@@ -60,23 +60,23 @@ def get_key(keysize):
     
     return publickey, privatekey
 
-def make_key_file(name, keysize):
+def make_key_file(name, keysize, display=True):
     if os.path.exists("%s_publickey.txt"%(name)) or \
         os.path.exists("%s_private.txt"%(name)):
         sys.exit("WARNING: The file %s_publickey.txt or %s_privatekey.txt already exists! "%(name, name)+\
             "Use a different name or delete these file and rerun the program.")
     pubkey, privkey = get_key(keysize)
     # public key
-    print("The public key is a %s and %s digit number"%(len(str(pubkey[0])), len(str(pubkey[1]))))
+    if display:print("The public key is a %s and %s digit number"%(len(str(pubkey[0])), len(str(pubkey[1]))))
     fo=open("%s_publickey.txt"%(name), "w")
     fo.write("%s,%s,%s"%(keysize, pubkey[0], pubkey[1]))
     fo.close()
     # private key
-    print("The private key is a %s and %s digit number"%(len(str(privkey[0])), len(str(privkey[1]))))
+    if display:print("The private key is a %s and %s digit number"%(len(str(privkey[0])), len(str(privkey[1]))))
     fo=open("%s_privatekey.txt"%(name), "w")
     fo.write("%s,%s,%s"%(keysize, privkey[0], privkey[1]))
     fo.close()
-    print("Key files made!")
+    if display:print("Key files made!")
 
 def main():
     name = input("Enter the file name (with no extensions)> ")
