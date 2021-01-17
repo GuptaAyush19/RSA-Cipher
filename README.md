@@ -37,7 +37,7 @@ $ python main.py
 ```
 Upon pressing enter, the following will be displayed -
 ```
-RSA ENCRYPTION ALGORITHM [Version 1.1.2]
+RSA ENCRYPTION ALGORITHM [Version 1.1.3]
 source code -> https://github.com/GuptaAyush19/RSA-Cipher
 Copyright (c) 2021 Ayush Gupta
 
