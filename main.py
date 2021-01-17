@@ -8,7 +8,7 @@ import sys
 import os
 import time
 
-__version__ = "1.1.2"
+__version__ = "1.1.3"
 
 def read_key_file(filename):
     """function that reads the public/private key file and returns the keysize, modulus and key"""
@@ -82,7 +82,8 @@ def main():
     keypair_bool = input(">>> ").lower()
     if keypair_bool.startswith("t"):
         rsa.generate_key.main()
-        sys.exit("Now as the keys are generated, rerun the program to encrypt/decrypt")
+        input("Now as the keys are generated, rerun the program to encrypt/decrypt.")
+        sys.exit()
         
     # create table for files in current directory
     print("\nFiles in current directory for reference ->\n")
