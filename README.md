@@ -76,15 +76,14 @@ Files in current directory for reference ->
         1 : main.py
         2 : plain-text.txt
         3 : README.md
-        4 : x_privatekey.txt
-        5 : x_publickey.txt
+        4 : x_publickey.txt
 
 Corresponding numbers can be used to refer to the existing file.
 
 Do you want to (e)ncrypt or (d)ecrypt?> encrypt
 Mode selected: ENCRYPT
 Input the path/number of the public key ...
->>> 5
+>>> 4
 Input the path/number of the plain-text file ...
 >>> 2
 Input the desired path of the cipher file ...
@@ -95,3 +94,66 @@ The plain-text has been encrypted to <cipher.txt>
 Time taken to encrypt the file : 0.102 seconds
 Press any key to continue ...
 ```
+
+Decryption -
+```
+Generate a key pair by entering 'True'. If key exists then enter 'False' ...
+>>> False
+
+Files in current directory for reference ->
+
+        0 : cipher.txt
+        1 : LICENSE.txt
+        2 : main.py
+        3 : README.md
+        4 : x_privatekey.txt
+        5 : x_publickey.txt
+
+Corresponding numbers can be used to refer to the existing file.
+
+Do you want to (e)ncrypt or (d)ecrypt?> decrypt
+Mode selected: DECRYPT
+Input the path/number to the private key ...
+>>> 4
+Input the path/number of the cipher file ...
+>>> 0
+Input the desired path for the plain-text file ...
+>>> plain-text.txt
+
+Decrypting the file ...
+The cipher-text has been decrypted to <plain-text.txt>
+Time taken to encrypt the file : 0.08 seconds
+Press any key to continue ...
+```
+
+Rather than using numbers for file, one can either use the path to the file or the file itself if it is in the current directory.
+One such example -
+```
+Input the path/number of the cipher file ...
+>>> cipher.txt
+```
+
+In this input, `Input the desired path for the plain-text file ...` the program generates a new file with the name given by the user. It is similiar for both encrypt and decrypt mode.
+
+## Modules
+You do not have to download any modules prior to running this program as they used are already included in the source code.
+```tree
+├── RSA-Cipher-main                  
+│   ├── prime 
+|   |   └── __init__.py
+│   └── rsa 
+|       ├── __init__.py
+|       └── generate_key.py
+└──
+```
+
+## Credits
+The [Description](https://github.com/GuptaAyush19/RSA-Cipher#description) has been derived from *CRACKING CODES WITH PYTHON* by Al Sweigart and this book has been my inspiration to write this program.\
+Al Sweigart is a software developer and tech book author living in San
+Francisco. Python is his favorite programming language, and he is the
+developer of several open source modules for it. His other books are
+freely available under a Creative Commons license on his website https://
+inventwithpython.com. His cat weighs 12 pounds.
+
+## License
+MIT License : see the [`License.txt`](https://github.com/GuptaAyush19/RSA-Cipher/blob/main/LICENSE.txt) file
