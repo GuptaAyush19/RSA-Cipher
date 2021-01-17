@@ -8,7 +8,7 @@ import sys
 import os
 import time
 
-__version__ = "1.1.1"
+__version__ = "1.1.2"
 
 def read_key_file(filename):
     """function that reads the public/private key file and returns the keysize, modulus and key"""
